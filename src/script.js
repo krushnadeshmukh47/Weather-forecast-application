@@ -193,6 +193,15 @@ function getWeatherDetails(name, lat, lon, country, state) {
     });
 }
 
+function saveCityToLocalStorage(cityName) {
+    let cities = JSON.parse(localStorage.getItem('recentCities')) || [];
+    if (!cities.includes(cityName)) {
+        cities.push(cityName);
+        if (cities.length > 5) cities.shift();
+        localStorage.setItem('recentCities', JSON.stringify(cities));
+    }
+}
+
 function getCityCoordinates() {
     let cityName = cityInput.value.trim();
     cityInput.value = '';
@@ -200,11 +209,53 @@ function getCityCoordinates() {
     let GEOCODING_API_URL = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${api_key}`;
     fetch(GEOCODING_API_URL).then(res => res.json()).then(data => {
         let { name, lat, lon, country, state } = data[0];
+        saveCityToLocalStorage(name); // Save city to local storage
+        updateRecentCitiesDropdown(); // Refresh dropdown
         getWeatherDetails(name, lat, lon, country, state);
     }).catch(() => {
         alert(`Failed to fetch coordinates of ${cityName}`);
     });
 }
+
+function updateRecentCitiesDropdown() {
+    let cities = JSON.parse(localStorage.getItem('recentCities')) || [];
+    let recentCitiesDropdown = document.getElementById('recentCities');
+    recentCitiesDropdown.innerHTML = `<option value="" disabled selected>Select a city</option>`;
+    cities.forEach(city => {
+        let option = document.createElement('option');
+        option.value = city;
+        option.textContent = city;
+        recentCitiesDropdown.appendChild(option);
+    });
+}
+
+document.getElementById('recentCities').addEventListener('change', function () {
+    let cityName = this.value;
+    let GEOCODING_API_URL = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${api_key}`;
+    fetch(GEOCODING_API_URL)
+        .then(res => res.json())
+        .then(data => {
+            let { name, lat, lon, country, state } = data[0];
+            getWeatherDetails(name, lat, lon, country, state);
+        })
+        .catch(() => {
+            alert(`Failed to fetch coordinates of ${cityName}`);
+        });
+});
+
+document.getElementById('recentCities').addEventListener('change', function () {
+    let cityName = this.value;
+    let GEOCODING_API_URL = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${api_key}`;
+    fetch(GEOCODING_API_URL)
+        .then(res => res.json())
+        .then(data => {
+            let { name, lat, lon, country, state } = data[0];
+            getWeatherDetails(name, lat, lon, country, state);
+        })
+        .catch(() => {
+            alert(`Failed to fetch coordinates of ${cityName}`);
+        });
+});
 
 function getUserCoordinates(){
     navigator.geolocation.getCurrentPosition(position=> {
@@ -224,6 +275,10 @@ function getUserCoordinates(){
     }
 );
 }
+window.addEventListener('load', () => {
+    getUserCoordinates();
+    updateRecentCitiesDropdown();
+});
 
 searchBtn.addEventListener('click', getCityCoordinates);
 locationBtn.addEventListener('click', getUserCoordinates);
