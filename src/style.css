@@ -63,6 +63,9 @@
             }
         }
     }
+    .recent-cities{
+        display: none;
+    }
 }
 
 @media(max-width: 1040px) {

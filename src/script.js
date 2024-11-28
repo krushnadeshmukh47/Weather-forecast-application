@@ -205,9 +205,15 @@ function saveCityToLocalStorage(cityName) {
 function getCityCoordinates() {
     let cityName = cityInput.value.trim();
     cityInput.value = '';
-    if (!cityName) return;
+    if (!cityName){
+        alert("Please enter a city name before searching.");
+    };
     let GEOCODING_API_URL = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${api_key}`;
     fetch(GEOCODING_API_URL).then(res => res.json()).then(data => {
+        if (data.length === 0) {
+            alert('City not found. Please check the spelling and try again.');
+            return;
+        }
         let { name, lat, lon, country, state } = data[0];
         saveCityToLocalStorage(name); // Save city to local storage
         updateRecentCitiesDropdown(); // Refresh dropdown
@@ -220,7 +226,7 @@ function getCityCoordinates() {
 function updateRecentCitiesDropdown() {
     let cities = JSON.parse(localStorage.getItem('recentCities')) || [];
     let recentCitiesDropdown = document.getElementById('recentCities');
-    recentCitiesDropdown.innerHTML = `<option value="" disabled selected>Select a city</option>`;
+    recentCitiesDropdown.innerHTML = `<option value="" disabled selected>Recent searches:</option>`;
     cities.forEach(city => {
         let option = document.createElement('option');
         option.value = city;

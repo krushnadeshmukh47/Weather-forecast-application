@@ -17,6 +17,12 @@
         <div class="header sticky top-0 bg-[#212529] flex justify-between items-center mb-2.5 py-3.5">
             <h2 class="text-2xl font-medium">Weather</h2>
             <div class="weather-input">
+                <button class="recent-cities bg-white border-none p-3 text-base rounded-full text-[#2a2b2d]">
+                    <label for="recentCities" class="text-sm text-gray-400"></label>
+                    <select id="recentCities" class="text-black p-2 rounded">
+                        <option value="" disabled selected>Recently:</option>
+                    </select>
+                </button>
                 <input type="text" name="city" id="city_input" placeholder="Enter city name" class="bg-[#2a2b2d] border-none p-3 text-base rounded-full text-white focus:outline-none"/>
                 <button type="button" id="searchBtn" class="border-none text-lg p-3 rounded-full bg-white cursor-pointer text-gray-800">
                     <i class="fa-regular fa-search"></i>Search
@@ -24,13 +30,6 @@
                 <button type="button" id="locationBtn" class="border-none text-lg p-3 rounded-full bg-[#ea6e4b] cursor-pointer">
                     <i class="bx bx-target-lock"></i>Current Location
                 </button>
-
-                <div class="recent-cities mt-4">
-                    <label for="recentCities" class="text-sm text-gray-400">Recently Searched:</label>
-                    <select id="recentCities" class="text-black p-2 rounded">
-                        <option value="" disabled selected>Select a city</option>
-                    </select>
-                </div>
             </div>
         </div>
         <div class="weather-data grid grid-cols-4 gap-3">
@@ -144,7 +143,7 @@
                     </div>
                     <div class="card bg-[#2a2b2d] p-4 rounded-lg mb-4 col-span-2">
                         <div class="card-head flex justify-between mb-2.5">
-                            <p class="text-sm text-gray-400">Sunrise & Sunset</p>
+                            <p class="text-sm text-gray-400 ">Sunrise & Sunset</p>
                         </div>
                         <div class="sunrise-sunset grid grid-cols-2">
                             <div class="item flex items-center gap-2.5">
