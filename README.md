@@ -21,9 +21,16 @@ This is a responsive Weather Forecast Application built with **HTML**, **CSS**, 
 Ensure you have the following installed:
 - A modern web browser (e.g., Chrome, Firefox)
 - A text editor (e.g., VSCode) for editing the source code
+- Node.js and npm (Node Package Manager) for managing dependencies
 
 ### 2. Clone the Repository
 Clone the project to your local machine:
 ```bash
 git clone https://github.com/krushnadeshmukh47/Weather-forecast-application.git
 cd weather-forecast-app
+
+```
+#### 3. Install Dependencies
+Dependencies are not included in the repository (due to .gitignore), so install them using npm:
+```
+npm install
