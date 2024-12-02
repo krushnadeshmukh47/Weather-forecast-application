@@ -1,6 +1,8 @@
+// Global variable declarations and DOM element selections
 let cityInput = document.getElementById('city_input'),
     searchBtn = document.getElementById('searchBtn'),
     locationBtn = document.getElementById('locationBtn'),
+    // API key for OpenWeatherMap
     api_key = '804aafeb94ce4493aa5e6b898fae0017',
     currentWeatherCard = document.querySelectorAll('.weather-left .card')[0],
     fiveDaysForecastCard = document.querySelector('.day-forecast'),
@@ -14,7 +16,9 @@ let cityInput = document.getElementById('city_input'),
     hourlyForecastCard = document.querySelector('.hourly-forecast'),
     aqiList = ['Good', 'Fair', 'Moderate', 'Poor', 'Very Poor'];
 
+// Function to fetch and display weather details
 function getWeatherDetails(name, lat, lon, country, state) {
+    // API URLs for weather data
     let FORECAST_API_URL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${api_key}`,
         WEATHER_API_URL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${api_key}`,
         AIR_POLLUTION_API_URL = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${api_key}`,
@@ -42,7 +46,11 @@ function getWeatherDetails(name, lat, lon, country, state) {
             'Dec'
         ];
 
-    fetch(AIR_POLLUTION_API_URL).then(res => res.json()).then(data=>{
+    // Fetch Air Quality Index (AQI) data
+    fetch(AIR_POLLUTION_API_URL)
+    .then(res => res.json())
+    .then(data=>{
+        console.log(data.list);
         let {co, no, no2, o3, so2, pm2_5, pm10, nh3} = data.list[0].components;
         aqiCard.innerHTML =`
         <div class="card-head flex justify-between mb-10">
@@ -87,8 +95,10 @@ function getWeatherDetails(name, lat, lon, country, state) {
     }).catch(()=>{
         alert('Failed to fetch Air Quality Index.')
     });
-
-    fetch(WEATHER_API_URL).then(res => res.json()).then(data => {
+    // Fetch current weather data
+    fetch(WEATHER_API_URL)
+    .then(res => res.json())
+    .then(data => {
         let date = new Date();
         currentWeatherCard.innerHTML = `
             <div class="current-weather flex justify-between items-center">
@@ -108,6 +118,7 @@ function getWeatherDetails(name, lat, lon, country, state) {
                         <p class="text-sm mb-3"><i class="fa-light fa-location-dot"></i> ${name}, ${country}</p>
             </div>
         `;
+        // Parse additional weather details
         let {sunrise, sunset} = data.sys,
         {timezone, visibility} = data,
         {humidity, pressure, feels_like} = data.main,
@@ -148,8 +159,10 @@ function getWeatherDetails(name, lat, lon, country, state) {
         alert('Failed to fetch current weather');
     });
 
-
-    fetch(FORECAST_API_URL).then(res => res.json()).then(data => {
+    // Fetch 5-day forecast data
+    fetch(FORECAST_API_URL)
+    .then(res => res.json())
+    .then(data => {
         let hourlyForecast = data.list;
         hourlyForecastCard.innerHTML = '';
         for(i = 0; i<=7; i++){
@@ -193,6 +206,7 @@ function getWeatherDetails(name, lat, lon, country, state) {
     });
 }
 
+// Function to save recent cities to local storage
 function saveCityToLocalStorage(cityName) {
     let cities = JSON.parse(localStorage.getItem('recentCities')) || [];
     if (!cities.includes(cityName)) {
@@ -214,6 +228,7 @@ function getCityCoordinates() {
             alert('City not found. Please check the spelling and try again.');
             return;
         }
+        console.log(data);
         let { name, lat, lon, country, state } = data[0];
         saveCityToLocalStorage(name); // Save city to local storage
         updateRecentCitiesDropdown(); // Refresh dropdown
@@ -223,6 +238,7 @@ function getCityCoordinates() {
     });
 }
 
+// Function to update the recent cities dropdown
 function updateRecentCitiesDropdown() {
     let cities = JSON.parse(localStorage.getItem('recentCities')) || [];
     let recentCitiesDropdown = document.getElementById('recentCities');
@@ -286,6 +302,7 @@ window.addEventListener('load', () => {
     updateRecentCitiesDropdown();
 });
 
+// Event listeners for search, location, city Input buttons
 searchBtn.addEventListener('click', getCityCoordinates);
 locationBtn.addEventListener('click', getUserCoordinates);
 cityInput.addEventListener('keyup', e => e.key === 'Enter' && getCityCoordinates());

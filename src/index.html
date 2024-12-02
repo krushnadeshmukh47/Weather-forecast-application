@@ -2,9 +2,12 @@
 <html>
 
 <head>
+    <!-- Metadata and external styles/scripts for the app -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather forecast</title>
+
+    <!-- External styles and fonts -->
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css">
     <link href="./output.css" rel="stylesheet">
@@ -13,30 +16,45 @@
 </head>
 
 <body class="min-h-screen bg-[#212529] text-white font-sans px-4">
+    <!-- Main body -->
     <div class="container">
+    <!-- Container for the entire application -->
+
+        <!-- Header section -->
         <div class="header sticky top-0 bg-[#212529] flex justify-between items-center mb-2.5 py-3.5">
             <h2 class="text-2xl font-medium">Weather</h2>
             <div class="weather-input">
+                <!-- Dropdown for recently searched cities -->
                 <button class="recent-cities bg-white border-none p-3 text-base rounded-full text-[#2a2b2d]">
                     <label for="recentCities" class="text-sm text-gray-400"></label>
                     <select id="recentCities" class="text-black p-2 rounded">
                         <option value="" disabled selected>Recently:</option>
                     </select>
                 </button>
+                <!-- Input field for city name -->
                 <input type="text" name="city" id="city_input" placeholder="Enter city name" class="bg-[#2a2b2d] border-none p-3 text-base rounded-full text-white focus:outline-none"/>
+                <!-- Search button -->
                 <button type="button" id="searchBtn" class="border-none text-lg p-3 rounded-full bg-white cursor-pointer text-gray-800">
                     <i class="fa-regular fa-search"></i>Search
                 </button>
+                <!-- Button for current location weather -->
                 <button type="button" id="locationBtn" class="border-none text-lg p-3 rounded-full bg-[#ea6e4b] cursor-pointer">
                     <i class="bx bx-target-lock"></i>Current Location
                 </button>
             </div>
         </div>
+
+        <!-- Main weather data section -->
         <div class="weather-data grid grid-cols-4 gap-3">
+
+            <!-- Left section for current weather and 5-day forecast -->
             <div class="weather-left col-span-1">
+                <!-- Card for current weather -->
                 <div class="card bg-[#2a2b2d] p-4 rounded-lg mb-4">
                     <div class="current-weather flex justify-between items-center">
                         <div class="details">
+                            <!-- Placeholder for current temperature and weather conditions -->
+                            <p class="text-sm text-gray-400">Now</p>
                             <p class="text-sm text-gray-400">Now</p>
                             <h2 class="text-2xl font-medium">___&deg;C</h2>
                             <p class="text-sm text-gray-400">_____</p>
@@ -51,6 +69,7 @@
                         <p class="text-sm text-gray-400 mb-3"><i class="fa-light fa-location-dot"></i>_____</p>
                     </div>
                 </div>
+                <!-- Card for 5-day forecast -->
                 <div class="card bg-[#2a2b2d] p-4 rounded-lg mb-4">
                     <h2 class="text-2xl font-medium">5 days forecast</h2>
                     <div class="day-forecast">
@@ -97,6 +116,7 @@
                     </div>
                 </div>
             </div>
+            <!-- Right section for detailed highlights -->
             <div class="weather-right col-span-3">
                 <h2 class="text-2xl font-medium mb-10">Today's Highlights</h2>
                 <div class="highlights grid grid-cols-4 gap-x-4">
@@ -212,6 +232,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- Hourly forecast -->
                 <h2 class="text-2xl font-medium mb-2.5">Today at</h2>
                 <div class="hourly-forecast grid grid-cols-8 gap-2.5">
                     <div class="card bg-[#2a2b2d] p-4 rounded-lg mb-4 text-center flex flex-col items-center">
@@ -257,6 +278,8 @@
                 </div>
         </div>
     </div>
+
+    <!-- External scripts for functionality -->
     <script src="https://momentjs.com/downloads/moment.min.js"></script>
     <script src="script.js"></script>
 </body>
